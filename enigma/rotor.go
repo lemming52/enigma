@@ -10,20 +10,26 @@ type Rotor struct {
 	position    int
 }
 
-const runeOffset = 65
+type RotorConfiguration struct {
+	name          string
+	configuration string
+	position      int
+}
+
+const runeOffset = 65 // A
 
 // NewRotor takes a configuration string of 26 characters and instantiates a rotor object
-func NewRotor(name, configuration string, position int) (*Rotor, error) {
-	connections, err := convertStringConfiguration(configuration)
+func NewRotor(r *RotorConfiguration) (*Rotor, error) {
+	connections, err := convertStringConfiguration(r.configuration)
 	if err != nil {
 		msg := fmt.Sprintf("Unable to create rotor: %v", err)
 		fmt.Println(msg)
 		return nil, err
 	}
 	return &Rotor{
-		Name:        name,
+		Name:        r.name,
 		connections: connections,
-		position:    position,
+		position:    r.position,
 	}, nil
 }
 
@@ -31,9 +37,8 @@ func NewRotor(name, configuration string, position int) (*Rotor, error) {
 func (r *Rotor) Traverse(position int, forwards bool) int {
 	if forwards {
 		return r.connections[0][(position+r.position)%25]
-	} else {
-		return r.connections[1][(position+r.position)%25]
 	}
+	return r.connections[1][(position+r.position)%25]
 }
 
 // Cycle rotates the rotor by one position
