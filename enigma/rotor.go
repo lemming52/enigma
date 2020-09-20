@@ -8,12 +8,14 @@ type Rotor struct {
 	Name        string
 	connections *[2][26]int
 	position    int
+	notches     map[int]bool
 }
 
 type RotorConfiguration struct {
 	name          string
 	configuration string
 	position      int
+	notches       []int
 }
 
 const runeOffset = 65 // A
@@ -26,10 +28,21 @@ func NewRotor(r *RotorConfiguration) (*Rotor, error) {
 		fmt.Println(msg)
 		return nil, err
 	}
+	if r.position < 0 || r.position >= 26 {
+		return nil, fmt.Errorf("Invalid start position %s on rotor %v", r.position, r.name)
+	}
+	notch := map[int]bool{}
+	for _, n := range r.notches {
+		if n < 0 || n >= 26 {
+			return nil, fmt.Errorf("Invalid notch position %s on rotor %v", n, r.name)
+		}
+		notch[n] = true
+	}
 	return &Rotor{
 		Name:        r.name,
 		connections: connections,
 		position:    r.position,
+		notches:     notch,
 	}, nil
 }
 
@@ -39,6 +52,11 @@ func (r *Rotor) Traverse(position int, forwards bool) int {
 		return r.connections[0][(position+r.position)%25]
 	}
 	return r.connections[1][(position+r.position)%25]
+}
+
+func (r *Rotor) IsNotchEngaged() {
+	_, ok := r.notches[r.position]
+	return ok
 }
 
 // Cycle rotates the rotor by one position

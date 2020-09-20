@@ -20,6 +20,9 @@ func NewPlugboard(pairs [][]int) (*Plugboard, error) {
 		if pair[0] == pair[1] {
 			return nil, fmt.Errorf("Cannot pair character with self: %v", pair)
 		}
+		if pair[0] < 0 || pair[0] > 25 || pair[1] < 0 || pair[1] > 25 {
+			return nil, fmt.Errorf("Invalid characters: %v", pair)
+		}
 		_, ok1 := p.connections[pair[0]]
 		_, ok2 := p.connections[pair[1]]
 		if ok1 || ok2 {
