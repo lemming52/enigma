@@ -29,12 +29,12 @@ func NewRotor(r *RotorConfiguration) (*Rotor, error) {
 		return nil, err
 	}
 	if r.position < 0 || r.position >= 26 {
-		return nil, fmt.Errorf("Invalid start position %s on rotor %v", r.position, r.name)
+		return nil, fmt.Errorf("Invalid start position %d on rotor %v", r.position, r.name)
 	}
 	notch := map[int]bool{}
 	for _, n := range r.notches {
 		if n < 0 || n >= 26 {
-			return nil, fmt.Errorf("Invalid notch position %s on rotor %v", n, r.name)
+			return nil, fmt.Errorf("Invalid notch position %d on rotor %v", n, r.name)
 		}
 		notch[n] = true
 	}
@@ -54,7 +54,7 @@ func (r *Rotor) Traverse(position int, forwards bool) int {
 	return r.connections[1][(position+r.position)%25]
 }
 
-func (r *Rotor) IsNotchEngaged() {
+func (r *Rotor) IsNotchEngaged() bool {
 	_, ok := r.notches[r.position]
 	return ok
 }

@@ -105,6 +105,11 @@ func TestInvalidPlugboard(t *testing.T) {
 				{1, 25},
 			},
 		}, {
+			name: "out of range",
+			input: [][]int{
+				{0, 27},
+			},
+		}, {
 			name: "more than 5",
 			input: [][]int{
 				{0, 25},
