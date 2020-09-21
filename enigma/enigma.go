@@ -14,7 +14,7 @@ func NewEnigma(rotorConfs []*RotorConfiguration, reflector string, plugs [][]int
 	if err != nil {
 		return nil, fmt.Errorf("unable to instantiate plugboard: %v", err)
 	}
-	ref, err := NewRotor(&RotorConfiguration{"reflector", reflector, 0, nil})
+	ref, err := NewRotor(&RotorConfiguration{"reflector", reflector, 0, 0, nil})
 	if err != nil {
 		return nil, fmt.Errorf("unable to instantiate reflector: %v", err)
 	}
@@ -60,6 +60,7 @@ func (e *Enigma) Encode(r rune) rune {
 	in := int(r - runeOffset)
 	out := e.plugs.Traverse(in)
 	e.Cycle()
+	fmt.Println(e.rotors[0].position, e.rotors[1].position, e.rotors[2].position)
 	for _, r := range e.rotors {
 		out = r.Traverse(out, true)
 	}
@@ -74,6 +75,7 @@ func (e *Enigma) EncodeString(s string) (string, error) {
 	crib := []rune(s)
 	cipher := []rune{}
 	for _, c := range crib {
+		fmt.Println(c, "-------")
 		if !isAllowedCharacter(c) {
 			return string(cipher), fmt.Errorf("unencodeable character: %v", c)
 		}
