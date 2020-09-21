@@ -8,9 +8,10 @@ import (
 
 func TestConvertStringConfiguration(t *testing.T) {
 	tests := []struct {
-		name     string
-		input    string
-		expected *[2][26]int
+		name         string
+		input        string
+		ringPosition int
+		expected     *[2][26]int
 	}{
 		{
 			name:  "base",
@@ -33,13 +34,21 @@ func TestConvertStringConfiguration(t *testing.T) {
 				0: {24, 17, 20, 7, 16, 18, 11, 3, 15, 23, 13, 6, 14, 10, 12, 8, 4, 1, 5, 25, 2, 22, 21, 9, 0, 19},
 				1: {24, 17, 20, 7, 16, 18, 11, 3, 15, 23, 13, 6, 14, 10, 12, 8, 4, 1, 5, 25, 2, 22, 21, 9, 0, 19},
 			},
+		}, {
+			name:  "ring setting",
+			input: "BDFHJLCPRTXVZNYEIWGAKMUSQO",
+			expected: &[2][26]int{
+				0: {15, 2, 4, 6, 8, 10, 12, 3, 16, 18, 20, 24, 22, 0, 14, 25, 5, 9, 23, 7, 1, 11, 13, 21, 19, 17},
+				1: {13, 20, 1, 7, 2, 16, 3, 19, 4, 17, 5, 21, 6, 22, 14, 0, 8, 25, 9, 24, 10, 23, 12, 18, 11, 15},
+			},
+			ringPosition: 1,
 		},
 	}
 	for _, test := range tests {
 		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			res, err := convertStringConfiguration(tt.input)
+			res, err := convertStringConfiguration(tt.input, tt.ringPosition)
 			assert.Nil(t, err)
 			assert.Equal(t, tt.expected, res, "expected arrays should be equal")
 		})

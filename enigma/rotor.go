@@ -8,6 +8,7 @@ type Rotor struct {
 	Name        string
 	connections *[2][26]int
 	position    int
+	ringSetting int
 	notches     map[int]bool
 }
 
@@ -15,6 +16,7 @@ type RotorConfiguration struct {
 	name          string
 	configuration string
 	position      int
+	ringSetting   int
 	notches       []int
 }
 
@@ -22,7 +24,7 @@ const runeOffset = 65 // A
 
 // NewRotor takes a configuration string of 26 characters and instantiates a rotor object
 func NewRotor(r *RotorConfiguration) (*Rotor, error) {
-	connections, err := convertStringConfiguration(r.configuration)
+	connections, err := convertStringConfiguration(r.configuration, r.ringSetting)
 	if err != nil {
 		msg := fmt.Sprintf("Unable to create rotor: %v", err)
 		fmt.Println(msg)
@@ -42,16 +44,31 @@ func NewRotor(r *RotorConfiguration) (*Rotor, error) {
 		Name:        r.name,
 		connections: connections,
 		position:    r.position,
+		ringSetting: r.ringSetting,
 		notches:     notch,
 	}, nil
 }
 
 // Traverse passes a signal through the rotor configuration, either forwards or backwards
 func (r *Rotor) Traverse(position int, forwards bool) int {
-	if forwards {
-		return r.connections[0][(position+r.position)%25]
+	offsetPosition := position + r.position
+	if offsetPosition > 25 {
+		offsetPosition -= 26
 	}
-	return r.connections[1][(position+r.position)%25]
+	if forwards {
+		output := r.connections[0][offsetPosition] - r.position
+		if output < 0 {
+			output += 26
+		}
+		fmt.Println(position, offsetPosition, r.connections[0][offsetPosition], output, r.Name)
+		return output
+	}
+	output := r.connections[1][offsetPosition] - r.position
+	if output < 0 {
+		output += 26
+	}
+	fmt.Println(position, offsetPosition, r.connections[1][offsetPosition], output, r.Name)
+	return output
 }
 
 func (r *Rotor) IsNotchEngaged() bool {
@@ -66,21 +83,39 @@ func (r *Rotor) Cycle() {
 
 // convertStringConfiguration converts a single string of characters, representing what characters [A-Z] map to
 // in position 0, and returns a slice of the wire pairs
-func convertStringConfiguration(conf string) (*[2][26]int, error) {
-	connections := &[2][26]int{}
+func convertStringConfiguration(conf string, ringSetting int) (*[2][26]int, error) {
+	connections := emptyConnections()
+
 	runes := []rune(conf)
 	for i, r := range runes {
 		if !isAllowedCharacter(r) {
 			return nil, fmt.Errorf("Forbidden Character in configuration: %b", conf[i])
 		}
-		position := int(r - runeOffset)
-		connections[0][i] = position
-		if i != 0 && connections[1][position] != 0 {
-			return nil, fmt.Errorf("Duplicate Character map, characters in positions %d and %d", i, connections[1][position])
+		j := i + ringSetting
+		if j > 25 {
+			j -= 26
 		}
-		connections[1][position] = i
+		position := int(r-runeOffset) + ringSetting
+		if position > 25 {
+			position -= 26
+		}
+		connections[0][j] = position
+		if connections[1][position] != -1 {
+			return nil, fmt.Errorf("Duplicate Character in map, position: %v", i)
+		}
+		connections[1][position] = j
 	}
 	return connections, nil
+}
+
+func emptyConnections() *[2][26]int {
+	connections := &[2][26]int{}
+	for i, r := range connections {
+		for j := range r {
+			connections[i][j] = -1
+		}
+	}
+	return connections
 }
 
 // isAllowedCharacter constrains the configuration string to uppercase letters
