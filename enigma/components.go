@@ -16,6 +16,8 @@ const NotchII = 4
 const NotchIII = 21
 const NotchIV = 9
 const NotchV = 25
+const NotchVIToVIIIA = 12
+const NotchVIToVIIIB = 25
 
 // Reflectors
 const ReflectorA = "EJMZALYXVBWFCRQUONTSPIKHGD"
