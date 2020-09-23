@@ -99,7 +99,7 @@ func TestTraverse(t *testing.T) {
 				0: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 0},
 				1: {25, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24},
 			},
-			expected: 11,
+			expected: 6,
 			forwards: true,
 		},
 		{
@@ -110,7 +110,7 @@ func TestTraverse(t *testing.T) {
 				0: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 0},
 				1: {25, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24},
 			},
-			expected: 6,
+			expected: 11,
 			forwards: true,
 		},
 		{
@@ -121,7 +121,7 @@ func TestTraverse(t *testing.T) {
 				0: {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 0},
 				1: {25, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24},
 			},
-			expected: 9,
+			expected: 4,
 			forwards: false,
 		},
 	}
@@ -131,6 +131,7 @@ func TestTraverse(t *testing.T) {
 			r := Rotor{
 				connections: tt.connections,
 				position:    tt.startPos,
+				ringSetting: 0,
 			}
 			t.Parallel()
 			res := r.Traverse(tt.input, tt.forwards)

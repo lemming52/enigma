@@ -131,3 +131,63 @@ func TestInvalidPlugboard(t *testing.T) {
 		})
 	}
 }
+
+func TestParsePlugboard(t *testing.T) {
+	tests := []struct {
+		name     string
+		input    string
+		expected [][]int
+	}{
+		{
+			name:     "base",
+			input:    "AZ",
+			expected: [][]int{{0, 25}},
+		}, {
+			name:     "multiple",
+			input:    "AZ GH",
+			expected: [][]int{{0, 25}, {6, 7}},
+		},
+	}
+	for _, test := range tests {
+		tt := test
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			p, err := parseStringPlugboard(tt.input)
+			assert.Nil(t, err)
+			assert.Equal(t, tt.expected, p, "output configuration should match")
+		})
+	}
+}
+
+func TestInvalidParsePlugboard(t *testing.T) {
+	tests := []struct {
+		name  string
+		input string
+	}{
+		{
+			name:  "too many",
+			input: "AZ BX CY DF GH JK",
+		}, {
+			name:  "too many characters",
+			input: "AZ GHH",
+		}, {
+			name:  "invalid characters",
+			input: "az",
+		}, {
+			name:  "self link",
+			input: "AA",
+		}, {
+			name:  "repeated",
+			input: "AZ AD",
+		},
+	}
+	for _, test := range tests {
+		tt := test
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			p, err := parseStringPlugboard(tt.input)
+			assert.Nil(t, p)
+			assert.Error(t, err)
+		})
+	}
+}

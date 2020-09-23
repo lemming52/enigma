@@ -2,6 +2,7 @@ package enigma
 
 import (
 	"fmt"
+	"strings"
 )
 
 type Plugboard struct {
@@ -32,6 +33,38 @@ func NewPlugboard(pairs [][]int) (*Plugboard, error) {
 		p.connections[pair[1]] = pair[0]
 	}
 	return &p, nil
+}
+
+func parseStringPlugboard(s string) ([][]int, error) {
+	pairs := strings.Split(s, " ")
+	if len(pairs) > 5 {
+		return nil, fmt.Errorf("too many plugboard pairs: %d", len(pairs))
+	}
+	res := [][]int{}
+	occupied := map[rune]bool{}
+	for _, p := range pairs {
+		if len(p) != 2 {
+			return nil, fmt.Errorf("invalid plugboard configuration %s, can only connect two letters", p)
+		}
+		if p[0] == p[1] {
+			return nil, fmt.Errorf("invalid plugboard connection %s, cannot connect letter to self", p)
+		}
+		r1 := rune(p[0])
+		r2 := rune(p[1])
+		if !isAllowedCharacter(r1) || !isAllowedCharacter(r2) {
+			return nil, fmt.Errorf("invalid characters %s, must be upper case [A-Z]", p)
+		}
+		_, ok0 := occupied[r1]
+		_, ok1 := occupied[r2]
+		if ok0 || ok1 {
+			return nil, fmt.Errorf("invalid plugboard configuration %s, repeated letter", p)
+		}
+		occupied[r1] = true
+		occupied[r2] = true
+
+		res = append(res, []int{int(r1 - runeOffset), int(r2 - runeOffset)})
+	}
+	return res, nil
 }
 
 func (p *Plugboard) Traverse(input int) int {
