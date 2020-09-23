@@ -23,7 +23,7 @@ func NewEnigma(rotorConfs []*RotorConfiguration, reflector string, plugs [][]int
 	}
 	rotorCount := len(rotorConfs)
 	if rotorCount < 3 {
-		return nil, fmt.Errorf("Insufficient rotors specified: %d", rotorCount)
+		return nil, fmt.Errorf("insufficient rotors specified: %d", rotorCount)
 	}
 	rotors := []*Rotor{}
 	for _, r := range rotorConfs {

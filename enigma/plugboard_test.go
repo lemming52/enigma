@@ -110,9 +110,14 @@ func TestInvalidPlugboard(t *testing.T) {
 				{0, 27},
 			},
 		}, {
-			name: "more than 5",
+			name: "more than 10",
 			input: [][]int{
 				{0, 25},
+				{2, 24},
+				{1, 23},
+				{10, 22},
+				{9, 21},
+				{8, 20},
 				{7, 12},
 				{6, 13},
 				{5, 14},

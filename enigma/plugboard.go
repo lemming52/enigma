@@ -11,8 +11,8 @@ type Plugboard struct {
 
 func NewPlugboard(pairs [][]int) (*Plugboard, error) {
 	p := Plugboard{connections: make(map[int]int)}
-	if len(pairs) > 5 {
-		return nil, fmt.Errorf("Too many plugs, limit is 5: %v", len(pairs))
+	if len(pairs) > 10 {
+		return nil, fmt.Errorf("Too many plugs, limit is 10: %v", len(pairs))
 	}
 	for _, pair := range pairs {
 		if len(pair) != 2 {
@@ -37,7 +37,7 @@ func NewPlugboard(pairs [][]int) (*Plugboard, error) {
 
 func parseStringPlugboard(s string) ([][]int, error) {
 	pairs := strings.Split(s, " ")
-	if len(pairs) > 5 {
+	if len(pairs) > 10 {
 		return nil, fmt.Errorf("too many plugboard pairs: %d", len(pairs))
 	}
 	res := [][]int{}
