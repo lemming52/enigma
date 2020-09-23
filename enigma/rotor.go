@@ -122,3 +122,37 @@ func emptyConnections() *[2][26]int {
 func isAllowedCharacter(r rune) bool {
 	return ('A' <= r && r <= 'Z')
 }
+
+// GetRotor takes naming information for a rotor and returns the full object
+func GetRotor(name string, position, setting int) (*Rotor, error) {
+	n, err := getNotches(name)
+	if err != nil {
+		return nil, fmt.Errorf("unable to create rotor %s: %v", name, err)
+	}
+	c, err := getRotor(name)
+	if err != nil {
+		return nil, fmt.Errorf("unable to create rotor %s: %v", name, err)
+	}
+	return NewRotor(&RotorConfiguration{
+		name:          name,
+		configuration: c,
+		position:      position,
+		ringSetting:   setting,
+		notches:       n,
+	})
+}
+
+// GetReflector takes a reflector name and returns the configuration
+func GetReflector(name string) (*Rotor, error) {
+	r, err := getReflector(name)
+	if err != nil {
+		return nil, fmt.Errorf("unable to create reflector %s: %v", name, err)
+	}
+	return NewRotor(&RotorConfiguration{
+		name:          name,
+		configuration: r,
+		position:      0,
+		ringSetting:   0,
+		notches:       nil,
+	})
+}
