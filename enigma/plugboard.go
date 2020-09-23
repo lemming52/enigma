@@ -69,6 +69,7 @@ func parseStringPlugboard(s string) ([][]int, error) {
 
 func (p *Plugboard) Traverse(input int) int {
 	out, ok := p.connections[input]
+	fmt.Println(input, out, ok, p.connections)
 	if ok {
 		return out
 	}

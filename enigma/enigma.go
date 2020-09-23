@@ -1,6 +1,9 @@
 package enigma
 
-import "fmt"
+import (
+	"fmt"
+	"unicode"
+)
 
 type Enigma struct {
 	plugs      *Plugboard
@@ -77,9 +80,17 @@ func (e *Enigma) EncodeString(s string) (string, error) {
 	for _, c := range crib {
 		fmt.Println(c, "-------")
 		if !isAllowedCharacter(c) {
-			return string(cipher), fmt.Errorf("unencodeable character: %v", c)
+			if !isRetainCharacter(c) {
+				return string(cipher), fmt.Errorf("unencodeable character: %v", c)
+			}
+			cipher = append(cipher, c)
+			continue
 		}
 		cipher = append(cipher, e.Encode(c))
 	}
 	return string(cipher), nil
+}
+
+func isRetainCharacter(r rune) bool {
+	return ('0' <= r && r <= '9') || unicode.IsSpace(r)
 }
