@@ -171,7 +171,7 @@ func TestInvalidParsePlugboard(t *testing.T) {
 	}{
 		{
 			name:  "too many",
-			input: "AZ BX CY DF GH JK",
+			input: "AZ BX CY DF GH JK QW ER TU IO PL",
 		}, {
 			name:  "too many characters",
 			input: "AZ GHH",
