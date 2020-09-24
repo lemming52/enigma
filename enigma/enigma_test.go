@@ -240,6 +240,72 @@ func TestEncodeString(t *testing.T) {
 			plugs:     [][]int{{0, 25}, {6, 7}},
 			input:     "KRKRALLEXXFOLGENDESISTSOFORTBEKANNTZUGEBENXXICHHABEFOLGELNBEBEFEHLERHALTENXXJANSTERLEDESBISHERIGXNREICHSMARSCHALLSJGOERINGJSETZTDERFUEHRERSIEYHVRRGRZSSADMIRALYALSSEINENNACHFOLGEREINXSCHRIFTLSCHEVOLLMACHTUNTERWEGSXABSOFORTSOLLENSIESAEMTLICHEMASSNAHMENVERFUEGENYDIESICHAUSDERGEGENWAERTIGENLAGEERGEBENXGEZXREICHSLEITEIKKTULPEKKJBORMANNJXXOBXDXMMMDURNHFKSTXKOMXADMXUUUBOOIEXKPO",
 			expected:  "VDIZLUASOOUMUTQWXGQQNOAJLDBRYOPDBZZBDQCEICQHQZIBXWGDJJXXYERXSVUQQXYEBZFHJFEZNIIXRPJZFGVPXSJQBFKXNPGYSNZNGFCCNBBDSMICNAZVONWNVMHWRYEMAFXYBSYGMVZPIUNTFFQCIOZZXZMHOAWUNPIKOEIOIKAQCZUPAOYBFSGMSDJKQKHSDUULVGDVFMKPSQYAIGCRRSVXOZEEPWKTCHYLBRPTXUSSDXZXEQUWVMOUUKVFZUZXFJJJXMLLQDOILEUVTCYKSASRQFQIWDTBXNDMIOVSRSNEWGKBXXWPSZLYCMEPMZYJPJPZJOESEUAKTUCWHJAZDHRLHVJVSPALMMEDIIPMMRBENBMNV",
+		}, {
+			name: "shark backwards compatible",
+			rotors: []*RotorConfiguration{
+				{
+					name:          "III",
+					configuration: rotorIII,
+					position:      0,
+					notches:       []int{21},
+					ringSetting:   0,
+				}, {
+					name:          "II",
+					configuration: rotorII,
+					position:      0,
+					notches:       []int{4},
+					ringSetting:   0,
+				}, {
+					name:          "I",
+					configuration: rotorI,
+					position:      0,
+					notches:       []int{16},
+					ringSetting:   0,
+				}, {
+					name:          "Beta",
+					configuration: rotorBeta,
+					position:      0,
+					notches:       nil,
+					ringSetting:   0,
+				},
+			},
+			reflector: reflectorBThin,
+			plugs:     nil,
+			input:     "AAAAA",
+			expected:  "BDZGO",
+		}, {
+			name: "shark",
+			rotors: []*RotorConfiguration{
+				{
+					name:          "III",
+					configuration: rotorIII,
+					position:      0,
+					notches:       []int{21},
+					ringSetting:   0,
+				}, {
+					name:          "II",
+					configuration: rotorII,
+					position:      0,
+					notches:       []int{4},
+					ringSetting:   0,
+				}, {
+					name:          "I",
+					configuration: rotorI,
+					position:      0,
+					notches:       []int{16},
+					ringSetting:   0,
+				}, {
+					name:          "Gamma",
+					configuration: rotorGamma,
+					position:      1,
+					notches:       nil,
+					ringSetting:   0,
+				},
+			},
+			reflector: reflectorCThin,
+			plugs:     nil,
+			input:     "AAAAA",
+			expected:  "NYXVI",
 		},
 	}
 	for _, test := range tests {
