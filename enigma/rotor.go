@@ -25,7 +25,7 @@ type RotorConfiguration struct {
 const runeOffset = 65 // A
 
 // NewRotorConfiguration takes the minimum required input to generate the required rotor configurations
-func NewRotorsConfiguration(name string, position, setting int) (*RotorConfiguration, error) {
+func NewRotorConfiguration(name string, position, setting int) (*RotorConfiguration, error) {
 	c, err := getRotor(name)
 	if err != nil {
 		return nil, err
@@ -61,9 +61,7 @@ func fillRotorConfiguration(r *RotorConfiguration) error {
 func newRotor(r *RotorConfiguration) (*Rotor, error) {
 	connections, err := convertStringConfiguration(r.configuration, r.ringSetting)
 	if err != nil {
-		msg := fmt.Sprintf("Unable to create rotor: %v", err)
-		fmt.Println(msg)
-		return nil, err
+		return nil, fmt.Errorf("Unable to parse rotor configuration: %v", err)
 	}
 	if r.position < 0 || r.position >= 26 {
 		return nil, fmt.Errorf("Invalid start position %d on rotor %v", r.position, r.name)

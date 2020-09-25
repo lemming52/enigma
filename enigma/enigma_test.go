@@ -19,23 +19,23 @@ func TestEncodeString(t *testing.T) {
 			name: "base",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      0,
 					notches:       []int{21},
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      0,
 					notches:       []int{4},
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{21},
 				},
 			},
-			reflector: reflectorB,
+			reflector: ReflectorB,
 			plugs:     "",
 			input:     "AAAAA",
 			expected:  "BDZGO",
@@ -43,23 +43,23 @@ func TestEncodeString(t *testing.T) {
 			name: "space",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      0,
 					notches:       []int{21},
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      0,
 					notches:       []int{4},
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{21},
 				},
 			},
-			reflector: reflectorB,
+			reflector: ReflectorB,
 			plugs:     "",
 			input:     "A AAA",
 			expected:  "B DZG",
@@ -67,23 +67,23 @@ func TestEncodeString(t *testing.T) {
 			name: "number",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      0,
 					notches:       []int{21},
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      0,
 					notches:       []int{4},
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{21},
 				},
 			},
-			reflector: reflectorB,
+			reflector: ReflectorB,
 			plugs:     "",
 			input:     "A1AAA",
 			expected:  "B1DZG",
@@ -91,23 +91,23 @@ func TestEncodeString(t *testing.T) {
 			name: "stepped",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      0,
 					notches:       []int{21},
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      0,
 					notches:       []int{4},
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{16},
 				},
 			},
-			reflector: reflectorB,
+			reflector: ReflectorB,
 			plugs:     "",
 			input:     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 			expected:  "BDZGOWCXLTKSBTMCDLPBMUQOFXYHCX",
@@ -115,23 +115,23 @@ func TestEncodeString(t *testing.T) {
 			name: "double stepped",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      20,
 					notches:       []int{21},
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      3,
 					notches:       []int{4},
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{16},
 				},
 			},
-			reflector: reflectorB,
+			reflector: ReflectorB,
 			plugs:     "",
 			input:     "AAAAA",
 			expected:  "EQIBM",
@@ -139,23 +139,23 @@ func TestEncodeString(t *testing.T) {
 			name: "double notched",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "VIII",
+					name:          RotorVIII,
 					configuration: rotorVIII,
 					position:      11,
 					notches:       []int{12, 25},
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      3,
 					notches:       []int{4},
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{16},
 				},
 			},
-			reflector: reflectorB,
+			reflector: ReflectorB,
 			plugs:     "",
 			input:     "ABCDEFGHIJKLMNO",
 			expected:  "DDFQJKCQQXBZZQK",
@@ -163,26 +163,26 @@ func TestEncodeString(t *testing.T) {
 			name: "ring setting",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      0,
 					notches:       []int{21},
 					ringSetting:   1,
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      0,
 					notches:       []int{4},
 					ringSetting:   0,
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{16},
 					ringSetting:   0,
 				},
 			},
-			reflector: reflectorB,
+			reflector: ReflectorB,
 			plugs:     "",
 			input:     "AAAAA",
 			expected:  "UBDZG",
@@ -190,26 +190,26 @@ func TestEncodeString(t *testing.T) {
 			name: "plugboard",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      0,
 					notches:       []int{21},
 					ringSetting:   0,
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      0,
 					notches:       []int{4},
 					ringSetting:   0,
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{16},
 					ringSetting:   0,
 				},
 			},
-			reflector: reflectorB,
+			reflector: ReflectorB,
 			plugs:     "AZ",
 			input:     "AAAZZ",
 			expected:  "UTZGO",
@@ -217,59 +217,59 @@ func TestEncodeString(t *testing.T) {
 			name: "everything",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "VIII",
+					name:          RotorVIII,
 					configuration: rotorVIII,
 					position:      4,
 					notches:       []int{12, 25},
 					ringSetting:   0,
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      1,
 					notches:       []int{4},
 					ringSetting:   4,
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{16},
 					ringSetting:   4,
 				},
 			},
-			reflector: reflectorC,
+			reflector: ReflectorC,
 			plugs:     "AZ FG",
 			input:     "KRKRALLEXXFOLGENDESISTSOFORTBEKANNTZUGEBENXXICHHABEFOLGELNBEBEFEHLERHALTENXXJANSTERLEDESBISHERIGXNREICHSMARSCHALLSJGOERINGJSETZTDERFUEHRERSIEYHVRRGRZSSADMIRALYALSSEINENNACHFOLGEREINXSCHRIFTLSCHEVOLLMACHTUNTERWEGSXABSOFORTSOLLENSIESAEMTLICHEMASSNAHMENVERFUEGENYDIESICHAUSDERGEGENWAERTIGENLAGEERGEBENXGEZXREICHSLEITEIKKTULPEKKJBORMANNJXXOBXDXMMMDURNHFKSTXKOMXADMXUUUBOOIEXKPO",
-			expected:  "VDIZLUASOOUMUTQWXGQQNOAJLDBRYOPDBZZBDQCEICQHQZIBXWGDJJXXYERXSVUQQXYEBZFHJFEZNIIXRPJZFGVPXSJQBFKXNPGYSNZNGFCCNBBDSMICNAZVONWNVMHWRYEMAFXYBSYGMVZPIUNTFFQCIOZZXZMHOAWUNPIKOEIOIKAQCZUPAOYBFSGMSDJKQKHSDUULVGDVFMKPSQYAIGCRRSVXOZEEPWKTCHYLBRPTXUSSDXZXEQUWVMOUUKVFZUZXFJJJXMLLQDOILEUVTCYKSASRQFQIWDTBXNDMIOVSRSNEWGKBXXWPSZLYCMEPMZYJPJPZJOESEUAKTUCWHJAZDHRLHVJVSPALMMEDIIPMMRBENBMNV",
+			expected:  "VDIZLUASOOOMUAQWXHQQNOAJBDBRYOPDBZZBDICEICQFQZSMXWHRJJRXYERXSVHQLXYEPZGFJGEZNIIXRPJZGHVPXSJEBGKCNPHYSNQNHGCCNKBDSMIXNAZVOWWNVMFWRYEYAGPYBSYHMVJPIUBTGGQCIOZZXZMFOAWUNPIKOEIRWKACCZUPAOYBTSHZSDJKJKFSDUULVFDVGMKPSQPAIHCRRPVXOZEEPWKTCFYLBRPTXUCSDXZXEQNWVMOUUMVGBUZXGJJJXMILQDOILNUNTCYKSASRVGQIWOTBXWDMIOVURSNEWHKIXXWPSZLYCMEPMZYJPJPZJOESEUAKTUCWFJAZDFRBGVJVSPALMMEDIIPMMRBENBMNV",
 		}, {
 			name: "shark backwards compatible",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      0,
 					notches:       []int{21},
 					ringSetting:   0,
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      0,
 					notches:       []int{4},
 					ringSetting:   0,
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{16},
 					ringSetting:   0,
 				}, {
-					name:          "Beta",
+					name:          RotorBeta,
 					configuration: rotorBeta,
 					position:      0,
 					notches:       nil,
 					ringSetting:   0,
 				},
 			},
-			reflector: reflectorBThin,
+			reflector: ReflectorBThin,
 			plugs:     "",
 			input:     "AAAAA",
 			expected:  "BDZGO",
@@ -277,32 +277,32 @@ func TestEncodeString(t *testing.T) {
 			name: "shark",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      0,
 					notches:       []int{21},
 					ringSetting:   0,
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      0,
 					notches:       []int{4},
 					ringSetting:   0,
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{16},
 					ringSetting:   0,
 				}, {
-					name:          "Gamma",
+					name:          RotorGamma,
 					configuration: rotorGamma,
 					position:      1,
 					notches:       nil,
 					ringSetting:   0,
 				},
 			},
-			reflector: reflectorCThin,
+			reflector: ReflectorCThin,
 			plugs:     "",
 			input:     "AAAAA",
 			expected:  "NYXVI",
@@ -333,23 +333,23 @@ func TestEncodeStringReverse(t *testing.T) {
 			name: "base",
 			rotors: []*RotorConfiguration{
 				{
-					name:          "III",
+					name:          RotorIII,
 					configuration: rotorIII,
 					position:      0,
 					notches:       []int{21},
 				}, {
-					name:          "II",
+					name:          RotorII,
 					configuration: rotorII,
 					position:      0,
 					notches:       []int{4},
 				}, {
-					name:          "I",
+					name:          RotorI,
 					configuration: rotorI,
 					position:      0,
 					notches:       []int{16},
 				},
 			},
-			reflector: reflectorB,
+			reflector: ReflectorB,
 			plugs:     nil,
 			input:     "AAAAA",
 		},
@@ -370,4 +370,63 @@ func TestEncodeStringReverse(t *testing.T) {
 			assert.Equal(t, tt.input, res, "encoded string should match")
 		})
 	}
+}
+
+func TestNew(t *testing.T) {
+	rotors := []struct {
+		name     string
+		position int
+		setting  int
+	}{
+		{
+			name:     RotorIII,
+			position: 5,
+			setting:  6,
+		}, {
+			name:     RotorII,
+			position: 23,
+			setting:  1,
+		}, {
+			name:     RotorI,
+			position: 0,
+			setting:  0,
+		},
+	}
+	tests := []struct {
+		name     string
+		input    string
+		expected string
+		rotors   []struct {
+			name     string
+			position int
+			setting  int
+		}
+		reflector string
+		plugboard string
+	}{
+		{
+			name:      "readme",
+			input:     "AAAAA",
+			expected:  "JTUJZ",
+			rotors:    rotors,
+			reflector: ReflectorB,
+			plugboard: "AZ BC XT",
+		},
+	}
+	for _, test := range tests {
+		tt := test
+		t.Run(tt.name, func(t *testing.T) {
+			t.Parallel()
+			conf := []*RotorConfiguration{}
+			for _, r := range tt.rotors {
+				conf = append(conf, &RotorConfiguration{name: r.name, position: r.position, ringSetting: r.setting})
+			}
+			e, err := New(conf, tt.reflector, tt.plugboard)
+			assert.Nil(t, err)
+			res, err := e.Encode(tt.input)
+			assert.Nil(t, err)
+			assert.Equal(t, tt.expected, res, "encoded message should match")
+		})
+	}
+
 }

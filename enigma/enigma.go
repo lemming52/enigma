@@ -21,6 +21,7 @@ func New(rotorConfs []*RotorConfiguration, reflector string, plugs string) (*Eni
 		if err != nil {
 			return nil, err
 		}
+		fmt.Println(r.configuration)
 	}
 	pb, err := parseStringPlugboard(plugs)
 	if err != nil {
@@ -30,10 +31,7 @@ func New(rotorConfs []*RotorConfiguration, reflector string, plugs string) (*Eni
 	if err != nil {
 		return nil, fmt.Errorf("unable to instantiate plugboard: %v", err)
 	}
-	ref, err := newRotor(&RotorConfiguration{"reflector", reflector, 0, 0, nil})
-	if err != nil {
-		return nil, fmt.Errorf("unable to instantiate reflector: %v", err)
-	}
+	ref, err := GetReflector(reflector)
 	rotorCount := len(rotorConfs)
 	if rotorCount < 3 {
 		return nil, fmt.Errorf("insufficient rotors specified: %d", rotorCount)

@@ -39,6 +39,9 @@ func newPlugboard(pairs [][]int) (*Plugboard, error) {
 
 // parseStringPlugboard converts a string representation of a plugboard to a set of int pairs
 func parseStringPlugboard(s string) ([][]int, error) {
+	if s == "" {
+		return nil, nil
+	}
 	pairs := strings.Split(s, " ")
 	if len(pairs) > 10 {
 		return nil, fmt.Errorf("too many plugboard pairs: %d", len(pairs))
