@@ -11,7 +11,7 @@ func TestEncodeString(t *testing.T) {
 		name      string
 		rotors    []*RotorConfiguration
 		reflector string
-		plugs     [][]int
+		plugs     string
 		input     string
 		expected  string
 	}{
@@ -36,7 +36,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorB,
-			plugs:     nil,
+			plugs:     "",
 			input:     "AAAAA",
 			expected:  "BDZGO",
 		}, {
@@ -60,7 +60,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorB,
-			plugs:     nil,
+			plugs:     "",
 			input:     "A AAA",
 			expected:  "B DZG",
 		}, {
@@ -84,7 +84,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorB,
-			plugs:     nil,
+			plugs:     "",
 			input:     "A1AAA",
 			expected:  "B1DZG",
 		}, {
@@ -108,7 +108,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorB,
-			plugs:     nil,
+			plugs:     "",
 			input:     "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
 			expected:  "BDZGOWCXLTKSBTMCDLPBMUQOFXYHCX",
 		}, {
@@ -132,7 +132,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorB,
-			plugs:     nil,
+			plugs:     "",
 			input:     "AAAAA",
 			expected:  "EQIBM",
 		}, {
@@ -156,7 +156,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorB,
-			plugs:     nil,
+			plugs:     "",
 			input:     "ABCDEFGHIJKLMNO",
 			expected:  "DDFQJKCQQXBZZQK",
 		}, {
@@ -183,7 +183,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorB,
-			plugs:     nil,
+			plugs:     "",
 			input:     "AAAAA",
 			expected:  "UBDZG",
 		}, {
@@ -210,7 +210,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorB,
-			plugs:     [][]int{{0, 25}},
+			plugs:     "AZ",
 			input:     "AAAZZ",
 			expected:  "UTZGO",
 		}, {
@@ -237,7 +237,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorC,
-			plugs:     [][]int{{0, 25}, {6, 7}},
+			plugs:     "AZ FG",
 			input:     "KRKRALLEXXFOLGENDESISTSOFORTBEKANNTZUGEBENXXICHHABEFOLGELNBEBEFEHLERHALTENXXJANSTERLEDESBISHERIGXNREICHSMARSCHALLSJGOERINGJSETZTDERFUEHRERSIEYHVRRGRZSSADMIRALYALSSEINENNACHFOLGEREINXSCHRIFTLSCHEVOLLMACHTUNTERWEGSXABSOFORTSOLLENSIESAEMTLICHEMASSNAHMENVERFUEGENYDIESICHAUSDERGEGENWAERTIGENLAGEERGEBENXGEZXREICHSLEITEIKKTULPEKKJBORMANNJXXOBXDXMMMDURNHFKSTXKOMXADMXUUUBOOIEXKPO",
 			expected:  "VDIZLUASOOUMUTQWXGQQNOAJLDBRYOPDBZZBDQCEICQHQZIBXWGDJJXXYERXSVUQQXYEBZFHJFEZNIIXRPJZFGVPXSJQBFKXNPGYSNZNGFCCNBBDSMICNAZVONWNVMHWRYEMAFXYBSYGMVZPIUNTFFQCIOZZXZMHOAWUNPIKOEIOIKAQCZUPAOYBFSGMSDJKQKHSDUULVGDVFMKPSQYAIGCRRSVXOZEEPWKTCHYLBRPTXUSSDXZXEQUWVMOUUKVFZUZXFJJJXMLLQDOILEUVTCYKSASRQFQIWDTBXNDMIOVSRSNEWGKBXXWPSZLYCMEPMZYJPJPZJOESEUAKTUCWHJAZDHRLHVJVSPALMMEDIIPMMRBENBMNV",
 		}, {
@@ -270,7 +270,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorBThin,
-			plugs:     nil,
+			plugs:     "",
 			input:     "AAAAA",
 			expected:  "BDZGO",
 		}, {
@@ -303,7 +303,7 @@ func TestEncodeString(t *testing.T) {
 				},
 			},
 			reflector: reflectorCThin,
-			plugs:     nil,
+			plugs:     "",
 			input:     "AAAAA",
 			expected:  "NYXVI",
 		},
@@ -311,9 +311,9 @@ func TestEncodeString(t *testing.T) {
 	for _, test := range tests {
 		tt := test
 		t.Run(tt.name, func(t *testing.T) {
-			e, err := NewEnigma(tt.rotors, tt.reflector, tt.plugs)
+			e, err := New(tt.rotors, tt.reflector, tt.plugs)
 			assert.Nil(t, err)
-			res, err := e.EncodeString(tt.input)
+			res, err := e.Encode(tt.input)
 			assert.Nil(t, err)
 			assert.Equal(t, tt.expected, res, "encoded string should match")
 		})
@@ -358,14 +358,14 @@ func TestEncodeStringReverse(t *testing.T) {
 		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			e, err := NewEnigma(tt.rotors, tt.reflector, nil)
+			e, err := New(tt.rotors, tt.reflector, "")
 			assert.Nil(t, err)
-			res, err := e.EncodeString(tt.input)
+			res, err := e.Encode(tt.input)
 			assert.Nil(t, err)
 			for i, r := range tt.rotors {
 				e.rotors[i].position = r.position
 			}
-			res, err = e.EncodeString(res)
+			res, err = e.Encode(res)
 			assert.Nil(t, err)
 			assert.Equal(t, tt.input, res, "encoded string should match")
 		})

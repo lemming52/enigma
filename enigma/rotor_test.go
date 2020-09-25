@@ -76,7 +76,7 @@ func TestCycle(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			r := Rotor{position: tt.startPos}
-			r.Cycle()
+			r.cycle()
 			assert.Equal(t, tt.endPos, r.position, "rotor did not cycle correctly, got %d expected %d", r.position, tt.endPos)
 		})
 	}
@@ -134,7 +134,7 @@ func TestTraverse(t *testing.T) {
 				ringSetting: 0,
 			}
 			t.Parallel()
-			res := r.Traverse(tt.input, tt.forwards)
+			res := r.traverse(tt.input, tt.forwards)
 			assert.Equal(t, tt.expected, res, "output value should match expected")
 		})
 	}

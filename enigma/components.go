@@ -4,7 +4,7 @@ import (
 	"fmt"
 )
 
-// Rotors
+// Rotors Names of the rotors to be used to specify conveniently
 const RotorI = "RotorI"
 const RotorII = "RotorII"
 const RotorIII = "RotorIII"
@@ -68,7 +68,7 @@ func getNotches(k string) ([]int, error) {
 	return n, nil
 }
 
-// Reflectors
+// Reflectors Names of the reflectors for convenient specification
 const ReflectorA = "ReflectorA"
 const ReflectorB = "ReflectorB"
 const ReflectorC = "ReflectorC"

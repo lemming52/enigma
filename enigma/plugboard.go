@@ -5,11 +5,13 @@ import (
 	"strings"
 )
 
+// Plugboard is the internal representation of the enigma plugboard
 type Plugboard struct {
 	connections map[int]int
 }
 
-func NewPlugboard(pairs [][]int) (*Plugboard, error) {
+// newPlugboard takes int pair configurations and converts them with validation to a plugboard object
+func newPlugboard(pairs [][]int) (*Plugboard, error) {
 	p := Plugboard{connections: make(map[int]int)}
 	if len(pairs) > 10 {
 		return nil, fmt.Errorf("Too many plugs, limit is 10: %v", len(pairs))
@@ -35,6 +37,7 @@ func NewPlugboard(pairs [][]int) (*Plugboard, error) {
 	return &p, nil
 }
 
+// parseStringPlugboard converts a string representation of a plugboard to a set of int pairs
 func parseStringPlugboard(s string) ([][]int, error) {
 	pairs := strings.Split(s, " ")
 	if len(pairs) > 10 {
@@ -67,7 +70,7 @@ func parseStringPlugboard(s string) ([][]int, error) {
 	return res, nil
 }
 
-func (p *Plugboard) Traverse(input int) int {
+func (p *Plugboard) traverse(input int) int {
 	out, ok := p.connections[input]
 	fmt.Println(input, out, ok, p.connections)
 	if ok {

@@ -2,9 +2,11 @@ package enigma
 
 import (
 	"fmt"
+	"strings"
 	"unicode"
 )
 
+// Enigma is the functioning enigma machine capable of encoding a message
 type Enigma struct {
 	plugs      *Plugboard
 	rotors     []*Rotor
@@ -12,12 +14,23 @@ type Enigma struct {
 	reflector  *Rotor
 }
 
-func NewEnigma(rotorConfs []*RotorConfiguration, reflector string, plugs [][]int) (*Enigma, error) {
-	p, err := NewPlugboard(plugs)
+// New instantiates an enigma machine from a barebones configuration
+func New(rotorConfs []*RotorConfiguration, reflector string, plugs string) (*Enigma, error) {
+	for _, r := range rotorConfs {
+		err := fillRotorConfiguration(r)
+		if err != nil {
+			return nil, err
+		}
+	}
+	pb, err := parseStringPlugboard(plugs)
+	if err != nil {
+		return nil, err
+	}
+	p, err := newPlugboard(pb)
 	if err != nil {
 		return nil, fmt.Errorf("unable to instantiate plugboard: %v", err)
 	}
-	ref, err := NewRotor(&RotorConfiguration{"reflector", reflector, 0, 0, nil})
+	ref, err := newRotor(&RotorConfiguration{"reflector", reflector, 0, 0, nil})
 	if err != nil {
 		return nil, fmt.Errorf("unable to instantiate reflector: %v", err)
 	}
@@ -27,7 +40,7 @@ func NewEnigma(rotorConfs []*RotorConfiguration, reflector string, plugs [][]int
 	}
 	rotors := []*Rotor{}
 	for _, r := range rotorConfs {
-		rot, err := NewRotor(r)
+		rot, err := newRotor(r)
 		if err != nil {
 			return nil, fmt.Errorf("unable to instantiate rotor: %s - %s", r.name, r.configuration)
 		}
@@ -41,44 +54,44 @@ func NewEnigma(rotorConfs []*RotorConfiguration, reflector string, plugs [][]int
 	}, nil
 }
 
-func (e *Enigma) Cycle() {
+// cycle steps the rotors of the enigma as done by the M3; i.e. 4th or greater rotor is static and double stepping of the 2nd rotor occurs
+func (e *Enigma) cycle() {
 	cycle1, cycle2 := false, false
-	if e.rotors[0].IsNotchEngaged() {
+	if e.rotors[0].isNotchEngaged() {
 		cycle1 = true
 	}
-	if e.rotors[1].IsNotchEngaged() {
+	if e.rotors[1].isNotchEngaged() {
 		cycle1 = true
 		cycle2 = true
 	}
-	e.rotors[0].Cycle()
+	e.rotors[0].cycle()
 	if cycle1 {
-		e.rotors[1].Cycle()
+		e.rotors[1].cycle()
 	}
 	if cycle2 {
-		e.rotors[2].Cycle()
+		e.rotors[2].cycle()
 	}
 }
 
-func (e *Enigma) Encode(r rune) rune {
+func (e *Enigma) encode(r rune) rune {
 	in := int(r - runeOffset)
-	out := e.plugs.Traverse(in)
-	e.Cycle()
-	fmt.Println(e.rotors[0].position, e.rotors[1].position, e.rotors[2].position)
+	out := e.plugs.traverse(in)
+	e.cycle()
 	for _, r := range e.rotors {
-		out = r.Traverse(out, true)
+		out = r.traverse(out, true)
 	}
-	out = e.reflector.Traverse(out, true)
+	out = e.reflector.traverse(out, true)
 	for i := e.rotorCount; i >= 0; i-- {
-		out = e.rotors[i].Traverse(out, false)
+		out = e.rotors[i].traverse(out, false)
 	}
-	return rune(e.plugs.Traverse(out)) + runeOffset
+	return rune(e.plugs.traverse(out)) + runeOffset
 }
 
-func (e *Enigma) EncodeString(s string) (string, error) {
-	crib := []rune(s)
+// Encode is the principal method of the package, making use of the enigma machine to encode a string an cycle the machine
+func (e *Enigma) Encode(s string) (string, error) {
+	crib := []rune(strings.ToUpper(s))
 	cipher := []rune{}
 	for _, c := range crib {
-		fmt.Println(c, "-------")
 		if !isAllowedCharacter(c) {
 			if !isRetainCharacter(c) {
 				return string(cipher), fmt.Errorf("unencodeable character: %v", c)
@@ -86,7 +99,7 @@ func (e *Enigma) EncodeString(s string) (string, error) {
 			cipher = append(cipher, c)
 			continue
 		}
-		cipher = append(cipher, e.Encode(c))
+		cipher = append(cipher, e.encode(c))
 	}
 	return string(cipher), nil
 }

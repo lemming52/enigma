@@ -36,7 +36,7 @@ func TestPlugTraverse(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
 			p := Plugboard{connections: tt.connections}
-			res := p.Traverse(tt.input)
+			res := p.traverse(tt.input)
 			assert.Equal(t, tt.expected, res, "")
 		})
 	}
@@ -75,7 +75,7 @@ func TestNewPlugboard(t *testing.T) {
 		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			p, err := NewPlugboard(tt.input)
+			p, err := newPlugboard(tt.input)
 			assert.Nil(t, err)
 			assert.Equal(t, tt.expected, p.connections, "connections should match")
 		})
@@ -130,7 +130,7 @@ func TestInvalidPlugboard(t *testing.T) {
 		tt := test
 		t.Run(tt.name, func(t *testing.T) {
 			t.Parallel()
-			p, err := NewPlugboard(tt.input)
+			p, err := newPlugboard(tt.input)
 			assert.Nil(t, p)
 			assert.Error(t, err)
 		})
