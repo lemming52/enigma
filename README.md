@@ -13,7 +13,7 @@ The machine functions identically to the physical machine, and can be configured
 
 Instantiate a machine with specific rotor configurations, from right to left on the physical machine:
 ```
-em, err := enigma.New([]RotorConfiguration{
+em, err := enigma.New([]*RotorConfiguration{
     {
         name: RotorIII,
         position: 5,
@@ -46,7 +46,7 @@ RotorI | ReflectorA
 RotorII | ReflectorB
 RotorIII | ReflectorC
 RotorIV | ReflectorBThin
-RotorV | ReflectorCThing
+RotorV | ReflectorCThin
 RotorVI |
 RotorVII |
 RotorVIII |
